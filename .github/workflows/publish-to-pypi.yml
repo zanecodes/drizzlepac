@@ -9,7 +9,7 @@ jobs:
     name: Validate metadata
     runs-on: ubuntu-latest
     steps:
-      - uses: spacetelescope/action-publish_to_pypi/validate@master
+      - uses: zanecodes/action-publish_to_pypi/validate@bump-python
 
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -20,7 +20,7 @@ jobs:
         os: [ubuntu-20.04, macos-10.15]
 
     steps:
-      - uses: spacetelescope/action-publish_to_pypi/build-wheel@master
+      - uses: zanecodes/action-publish_to_pypi/build-wheel@bump-python
         env:
           CIBW_SKIP: "*-manylinux_i686"
 
@@ -29,13 +29,13 @@ jobs:
     needs: [validate]
     runs-on: ubuntu-latest
     steps:
-      - uses: spacetelescope/action-publish_to_pypi/build-sdist@master
+      - uses: zanecodes/action-publish_to_pypi/build-sdist@bump-python
 
   upload_pypi_platform_wheels:
     needs: [build_wheels, build_sdist]
     runs-on: ubuntu-latest
     steps:
-      - uses: spacetelescope/action-publish_to_pypi/publish@master
+      - uses: zanecodes/action-publish_to_pypi/publish@bump-python
         with:
           test: false
           user: ${{ secrets.PYPI_USERNAME_STSCI_MAINTAINER }}
